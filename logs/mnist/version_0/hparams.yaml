@@ -1,0 +1,10 @@
+base_model: null
+data_dir: /home/zeusdric/Dric/Zindi2020/Coding-Room/data
+eps: 1.0e-08
+logs_dir: /home/zeusdric/Dric/Zindi2020/Coding-Room/logs
+lr: 0.01
+models_dir: /home/zeusdric/Dric/Zindi2020/Coding-Room/models
+num_epochs: 2
+test_batch_size: 512
+train_batch_size: 1024
+weight_decay: 0.01
