@@ -1,5 +1,5 @@
-data/
-models/
-logs/
-submissions/
-dask-worker-folder
+/data/
+/models/
+/logs/
+/submissions/
+/dask-worker-folder/
