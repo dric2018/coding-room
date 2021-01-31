@@ -5,7 +5,7 @@ class Config:
     data_dir = os.path.abspath('../data')
     models_dir = os.path.abspath('../models')
     logs_dir = os.path.abspath('../logs')
-    num_epochs = 10
+    num_epochs = 2
     lr = 1e-2
     weight_decay = .01
     eps = 1e-8
