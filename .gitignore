@@ -1,7 +1,10 @@
-/data/
-/models/
-/logs/
-/submissions/
-/dask-worker-folder/
-/starter/.ipynb_checkpoints/
-/*/*.ipynb_checkpoints/
+# ignore
+data/*
+models/*
+submissions/*
+logs/*
+.vscode/*
+projects/*/data/*
+projects/*/models/*
+projects/*/logs/*
+projects/*/sublissions/*
