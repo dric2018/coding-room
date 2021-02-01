@@ -1,1 +1,1 @@
-mkdir -p data/input models logs submissions experiments notebooks
+mkdir -p data/input models logs submissions experiments notebooks src
