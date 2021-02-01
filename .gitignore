@@ -4,6 +4,8 @@ models/*
 submissions/*
 logs/*
 .vscode/*
+dask-worker-space/*
+
 projects/*/data/*
 projects/*/models/*
 projects/*/logs/*
