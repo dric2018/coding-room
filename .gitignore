@@ -5,9 +5,11 @@ submissions/*
 logs/*
 .vscode/*
 dask-worker-space/*
+.ipynb_checkpoints/*
 
 projects/*/data/*
 projects/*/models/*
 projects/*/logs/*
 projects/*/sublissions/*
 projects/*/.ipynb_checkpoints/*
+projects/*/*/.ipynb_checkpoints/*

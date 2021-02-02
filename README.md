@@ -15,8 +15,8 @@ This is a week map for all the experiments I do.
 - Hyperparams tried:
 - Training on : Nvidia GTX 1060 (6.1k MB VRAM)
 
-  - num_epochs = 5
-  - lr = 1e-2
+  - num_epochs = 10
+  - lr = 3e-4
   - resize = 400
   - img_h = 350
   - img_w = 350
@@ -24,7 +24,7 @@ This is a week map for all the experiments I do.
   - eps = 1e-8
   - train_batch_size = 32
   - test_batch_size = 32
-  - base_model = 'resnet50'
+  - base_model = 'resnet34'
   - seed_val = 2021
   - Adam Optimizer with weight decay
   - ReduceLrOnPlateau (monitoring val_accuracy)
