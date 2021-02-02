@@ -9,8 +9,12 @@ class Config:
     test_data_dir = os.path.abspath('../data/input/test_images')
     num_epochs = 10
     lr = 2e-3
+    resize = 500
+    img_h = 350
+    img_w = 350
     weight_decay = .01
     eps = 1e-8
-    train_batch_size = 16
-    test_batch_size = 4
+    train_batch_size = 32
+    test_batch_size = 8
     base_model = 'resnet34'
+    seed_val = 2021
