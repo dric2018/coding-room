@@ -31,5 +31,5 @@ This is a week map for all the experiments I do.
   - Using auto mixed precision (fp16)
 
 - Results (Local):
-  - Validation loss :
-  - Validation accuracy :
+  - Validation loss : 0.65
+  - Validation accuracy : 0.77
