@@ -18,6 +18,7 @@ class LeafDataset(Dataset):
     def __init__(self, data_dir:str, df:pd.DataFrame, transform=None, task='train'):
         super(LeafDataset, self).__init__()
         self.data_dir = data_dir
+        self.imgs_list = os.listdir(self.data_dir)
         self.transform = transform
         self.df = df
         self.task = task
@@ -27,9 +28,14 @@ class LeafDataset(Dataset):
         return len(self.df)
     
     def __getitem__(self, index):
-        # get image name or image id from the given dataframe
-        img_id = self.df.iloc[index].image_id
-        
+        try:
+            # get image name or image id from the given dataframe
+            img_id = self.df.iloc[index].image_id
+        except:
+            # get image from data dir
+            img_id = self.imgs_list[index]
+            
+            
         # load image as array and make it tensor
         img_array = Image.open(os.path.join(self.data_dir, img_id))
         

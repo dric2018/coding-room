@@ -32,4 +32,7 @@ This is a week map for all the experiments I do.
 
 - Results (Local):
   - Validation loss : 0.65
-  - Validation accuracy : 0.77
+  - Validation accuracy : 0.79
+  
+- Results (Kaggle):
+  - Test accuracy : 0.838
