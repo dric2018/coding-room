@@ -10,3 +10,4 @@ projects/*/data/*
 projects/*/models/*
 projects/*/logs/*
 projects/*/sublissions/*
+projects/*/.ipynb_checkpoints/*

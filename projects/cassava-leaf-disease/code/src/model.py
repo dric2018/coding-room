@@ -44,10 +44,14 @@ class Model(pl.LightningModule):
         x, y = batch['img'], batch['targets']
         logits = self(x)
         preds = F.log_softmax(logits, dim=1)
-        loss = th.nn.NLLLoss()(logits, y)
+        loss = th.nn.NLLLoss()(preds, y)
         acc = accuracy(preds.cpu(), y.cpu())
 
-        self.log('train_acc', acc, prog_bar=True, on_step=True, on_epoch=True)
+        self.log('train_acc', 
+                 acc, 
+                 prog_bar=True,
+                 on_step=True, 
+                 on_epoch=True)
 
         return {'loss': loss,
                 'accuracy': acc,
@@ -76,13 +80,22 @@ class Model(pl.LightningModule):
         x, y = batch['img'], batch['targets']
         logits = self(x)
         preds = F.log_softmax(logits, dim=1)
-        val_loss = th.nn.NLLLoss()(logits, y)
+        val_loss = th.nn.NLLLoss()(preds, y)
         val_acc = accuracy(preds.cpu(), y.cpu())
 
-        self.log('val_loss', val_loss, prog_bar=True,
-                 on_step=False, on_epoch=True)
-        self.log('val_acc', val_acc, prog_bar=True,
-                 on_step=False, on_epoch=True)
+        self.log('val_loss', 
+                 val_loss, 
+                 prog_bar=True,
+                 on_step=False, 
+                 on_epoch=True
+                )
+        
+        self.log('val_acc', 
+                 val_acc, 
+                 prog_bar=True,
+                 on_step=False, 
+                 on_epoch=True
+                )
 
         return {'loss': val_loss,
                 'accuracy': val_acc,
@@ -117,7 +130,7 @@ class Model(pl.LightningModule):
         
         scheduler = th.optim.lr_scheduler.ReduceLROnPlateau(
             optimizer=opt,
-            mode='min',
+            mode='max',
             factor=0.1,
             patience=4,
             threshold=0.0001,
