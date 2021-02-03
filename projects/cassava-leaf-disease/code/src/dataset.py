@@ -88,6 +88,7 @@ class DataModule(pl.LightningDataModule):
         self.data_transform = data_transform
         self.validation_split = validation_split
         self.train_frac = train_frac
+        self.num_workers = config.num_workers
         
     def setup(self, stage=None):
         
@@ -103,23 +104,27 @@ class DataModule(pl.LightningDataModule):
             
         self.train_ds = LeafDataset(data_dir=self.train_data_dir,
                                     df=train, 
-                                    transform=self.data_transform['train'], 
+                                    transform=None,#self.data_transform['train'], 
                                     task='train')
 
         self.val_ds = LeafDataset(data_dir=self.train_data_dir, 
                                     df=val, 
-                                    transform=self.data_transform['validation'], 
+                                    transform=None,#self.data_transform['validation'], 
                                     task='train')
 
         print(f'[INFO] Training on {len(self.train_ds)}')
         print(f'[INFO] Validating on {len(self.val_ds)}')
 
     def train_dataloader(self):
-        return DataLoader(self.train_ds,
-                          batch_size=self.train_batch_size,
-                          num_workers=os.cpu_count())
+        return DataLoader(
+            self.train_ds,
+            batch_size=self.train_batch_size,
+            num_workers=self.num_workers
+                         )
 
     def val_dataloader(self):
-        return DataLoader(self.val_ds,
-                          batch_size=self.test_batch_size,
-                          num_workers=os.cpu_count())
+        return DataLoader(
+            self.val_ds,
+            batch_size=self.test_batch_size,
+            num_workers=self.num_workers
+                         )

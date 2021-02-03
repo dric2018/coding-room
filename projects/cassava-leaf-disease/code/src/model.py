@@ -1,15 +1,19 @@
 # IMPPORTS
 import torch as th
+import torch.nn as nn
+import torch.nn.functional as F
+
 import pytorch_lightning as pl
 from pytorch_lightning.metrics.functional import accuracy
+
 import torchvision
-import torch.nn.functional as F
+from torchvision import transforms
 from timm import create_model
 
 from .config import Config
 
-# CONSTANTS DEFINITION
 
+# CONSTANTS DEFINITION
 
 
 class Model(pl.LightningModule):
@@ -21,12 +25,32 @@ class Model(pl.LightningModule):
         except:
             pass
         
+        self.train_transforms = nn.Sequential(
+                    transforms.Resize(size=(Config.resize, Config.resize)),
+                    transforms.RandomHorizontalFlip(p=.7),
+                    transforms.RandomVerticalFlip(p=.3),
+                    transforms.RandomRotation(degrees=25),
+                    transforms.CenterCrop(size=(Config.img_h, Config.img_w)),
+                    transforms.ColorJitter(brightness=(0.4, 1), contrast=.2, saturation=0, hue=0),
+                    transforms.GaussianBlur(kernel_size=3)
+        )
+        
+        self.validation_transforms = nn.Sequential(
+            transforms.Resize(size=(Config.resize, Config.resize)),
+            transforms.RandomRotation(degrees=25),
+            transforms.CenterCrop(size=(Config.img_h, Config.img_w)),
+            transforms.ColorJitter(brightness=(0.45, 1), 
+                                   contrast=.1, 
+                                   saturation=.1, 
+                                   hue=0.1),
+            transforms.GaussianBlur(kernel_size=3)
+        )
         # get backbone
         if from_timm:
             
             self.encoder = create_model(model_name=self.hparams.base_model, pretrained=True)
         else:
-            self.encoder = getattr(thvision.models, self.hparams.base_model)(pretrained=True)
+            self.encoder = getattr(torchvision.models, self.hparams.base_model)(pretrained=True)
         
         
         # create classification layer
@@ -42,8 +66,13 @@ class Model(pl.LightningModule):
 
     def training_step(self, batch, batch_idx):
         x, y = batch['img'], batch['targets']
+        # apply image aumentation 
+        x = self.train_transforms(x)
+        # forward pass
         logits = self(x)
         preds = F.log_softmax(logits, dim=1)
+        
+        # compute metrics
         loss = th.nn.NLLLoss()(preds, y)
         acc = accuracy(preds.cpu(), y.cpu())
 
@@ -78,8 +107,12 @@ class Model(pl.LightningModule):
 
     def validation_step(self, batch, batch_idx):
         x, y = batch['img'], batch['targets']
+        # apply image aumentation 
+        x = self.validation_transforms(x)
+        # forward pass        
         logits = self(x)
         preds = F.log_softmax(logits, dim=1)
+        # compute metrics
         val_loss = th.nn.NLLLoss()(preds, y)
         val_acc = accuracy(preds.cpu(), y.cpu())
 
